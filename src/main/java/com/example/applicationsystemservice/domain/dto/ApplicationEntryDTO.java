@@ -1,19 +1,17 @@
-package com.example.applicationsystemservice.domain.entity;
+package com.example.applicationsystemservice.domain.dto;
 
+import com.example.applicationsystemservice.domain.entity.AccountEntity;
+import com.example.applicationsystemservice.domain.entity.ProjectEntity;
 import com.example.applicationsystemservice.domain.enums.ApplicationStatus;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import java.time.LocalDate;
-@Entity
 @Data
-public class ApplicationEntryEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class ApplicationEntryDTO {
     private Long id;
-    @ManyToOne
     private AccountEntity account;
-    @OneToOne
     private ProjectEntity project;
     private String commentApplicant;
     private String commentAdmin;
@@ -21,4 +19,3 @@ public class ApplicationEntryEntity {
     private LocalDate dateCreateApplication;
 
 }
-

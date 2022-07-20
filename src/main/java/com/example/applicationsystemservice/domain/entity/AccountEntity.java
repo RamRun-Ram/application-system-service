@@ -1,5 +1,6 @@
 package com.example.applicationsystemservice.domain.entity;
 
+import com.example.applicationsystemservice.domain.enums.PayPeriodEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

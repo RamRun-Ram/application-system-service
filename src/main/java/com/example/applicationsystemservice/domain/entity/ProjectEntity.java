@@ -16,7 +16,7 @@ public class ProjectEntity {
     private Long id;
     private String projectName;
     private String projectDescription;
-    @OneToOne
+    @ManyToOne
     private AccountEntity account;
     private String currency;
     private LocalDateTime dataCreateProject;

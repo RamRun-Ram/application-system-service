@@ -1,6 +1,6 @@
 package com.example.applicationsystemservice.domain.dto;
 
-import com.example.applicationsystemservice.domain.entity.PayPeriodEntity;
+import com.example.applicationsystemservice.domain.enums.PayPeriodEntity;
 import com.example.applicationsystemservice.domain.entity.RoleEntity;
 import lombok.Data;
 

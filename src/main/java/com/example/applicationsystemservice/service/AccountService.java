@@ -5,6 +5,7 @@ import com.example.applicationsystemservice.domain.entity.RoleEntity;
 
 
 public interface AccountService {
+    AccountDto findAccount(Long id);
     AccountDto createAccount(AccountDto accountDto);
     AccountDto updateAccount(AccountDto accountDto);
     void setRole(Long id, RoleEntity role);

@@ -11,7 +11,7 @@ import org.mapstruct.Mappings;
 @Mapper
 public interface AccountMapper {
     AccountDto accountToDto(AccountEntity accountEntity);
-    AccountEntity accountToEntity(AccountDto accountDto, RoleEntity role);
+    AccountEntity accountToEntity(AccountDto accountDto, String role);
     @Mappings({
             @Mapping(target = "id",ignore = true),
             @Mapping(target = "address",ignore = true),

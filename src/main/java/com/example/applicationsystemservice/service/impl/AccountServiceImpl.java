@@ -5,7 +5,9 @@ import com.example.applicationsystemservice.domain.entity.AccountEntity;
 import com.example.applicationsystemservice.domain.entity.RoleEntity;
 import com.example.applicationsystemservice.mapper.AccountMapper;
 import com.example.applicationsystemservice.service.AccountService;
+import com.example.applicationsystemservice.service.RoleService;
 import com.example.applicationsystemservice.service.repository.AccountRepository;
+import com.example.applicationsystemservice.service.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,24 +18,36 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class AccountServiceImpl implements AccountService {
+
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
+    private final RoleService roleService;
 
 
     @PostConstruct
     public void createAdmin() {
-        Optional<AccountEntity> optionalAccountEntity = accountRepository.findById(0L);
-        if (optionalAccountEntity.isEmpty() || optionalAccountEntity.get().getRole().getRoleName().equals("admin")) {
-            accountRepository.save(new AccountEntity(0L, "admin", "admin@gmail.com", "12345",
+        Optional<AccountEntity> optionalAccountEntity = accountRepository.findById(1L);
+        Optional<RoleEntity> roleEntityOptional = roleService.findById(1L);
+
+        if ((optionalAccountEntity.isEmpty() || optionalAccountEntity.get().getRole().getRoleName().equals("admin"))
+                && roleEntityOptional.isPresent() ) {
+            RoleEntity roleEntity= roleEntityOptional.get();
+            accountRepository.save(new AccountEntity(1L, "admin", "admin@gmail.com", "12345",
                     LocalDateTime.now(), "Ivanov Ivan Ivanovich",
-                    "Moscow...", "12.12.2000", new RoleEntity(0L,"admin")));
+                    "Moscow...", "12.12.2000", roleEntity));
         }
         ;
     }
 
     @Override
+    public AccountDto findAccount(Long id) {
+        AccountEntity accountEntity = accountRepository.findById(id).orElseThrow(RuntimeException::new);
+        return accountMapper.accountToDto(accountEntity);
+    }
+
+    @Override
     public AccountDto createAccount(AccountDto accountDto) {
-        AccountEntity accountEntity = accountRepository.save(accountMapper.accountToEntity(accountDto, new RoleEntity(1L, "developer")));
+        AccountEntity accountEntity = accountRepository.save(accountMapper.accountToEntity(accountDto, "developer"));
         return accountMapper.accountToDto(accountEntity);
     }
 

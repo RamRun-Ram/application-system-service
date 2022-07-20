@@ -26,7 +26,6 @@ public class ProjectServiceImpl implements ProjectService {
             ProjectEntity projectEntity = projectRepository.save(projectMapper.projectToEntity(projectDto));
             return projectMapper.projectToDto(projectEntity);
         }
-//       ошибка
-        return null;
+       throw new RuntimeException();
     }
 }

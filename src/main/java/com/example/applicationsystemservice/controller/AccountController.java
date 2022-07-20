@@ -1,8 +1,10 @@
 package com.example.applicationsystemservice.controller;
 
 import com.example.applicationsystemservice.domain.dto.AccountDto;
+import com.example.applicationsystemservice.domain.entity.RoleEntity;
 import com.example.applicationsystemservice.service.AccountService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +14,11 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
 
     private final AccountService accountService;
+
+    @GetMapping("/{id}")
+    public AccountDto findById(@PathVariable Long id){
+       return accountService.findAccount(id);
+    }
 
     @PostMapping
     public AccountDto createAccount(@RequestBody AccountDto accountDto) {
@@ -23,14 +30,14 @@ public class AccountController {
         return accountService.updateAccount(accountDto);
     }
 
-//    @PutMapping
-//    public void setAccountRole(@RequestBody Long id, @RequestBody RoleEntity role) {
-//        accountService.setRole(id, role);
-//    }
+    @PutMapping("set-role")
+    public void setAccountRole(@RequestParam Long id, @RequestBody RoleEntity role) {
+        accountService.setRole(id, role);
+    }
 
     @DeleteMapping("/{id}")
-    public boolean deleteClient(@PathVariable Long id) {
-        return accountService.deleteAccount(id);
+    public ResponseEntity<Boolean> deleteClient(@PathVariable Long id) {
+        return ResponseEntity.ok(accountService.deleteAccount(id));
     }
 
 }
