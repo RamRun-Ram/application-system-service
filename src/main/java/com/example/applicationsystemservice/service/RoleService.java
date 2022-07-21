@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface RoleService {
 //    RoleEntity createRole(RoleEntity roleEntity);
     Optional<RoleEntity> findById(Long id);
+
+    RoleEntity findByName(String name);
 }

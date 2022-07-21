@@ -1,12 +1,11 @@
 package com.example.applicationsystemservice.mapper;
 
 import com.example.applicationsystemservice.domain.dto.ApplicationEntryDTO;
-import com.example.applicationsystemservice.domain.dto.ProjectDto;
 import com.example.applicationsystemservice.domain.entity.ApplicationEntryEntity;
-import com.example.applicationsystemservice.domain.entity.ProjectEntity;
 import org.mapstruct.Mapper;
+import org.mapstruct.ReportingPolicy;
 
-@Mapper
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface ApplicationEntryMapper {
     ApplicationEntryDTO applicationEntryToDto(ApplicationEntryEntity applicationEntryEntity);
     ApplicationEntryEntity applicationDtoToEntity(ApplicationEntryDTO applicationEntryDTO);

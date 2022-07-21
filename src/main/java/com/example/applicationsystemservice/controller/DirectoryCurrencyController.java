@@ -13,17 +13,17 @@ import org.springframework.web.bind.annotation.*;
 public class DirectoryCurrencyController {
     private final DirectoryCurrencyService directoryCurrencyService;
 
-    @PostMapping
+    @PostMapping("create")
     public DirectoryCurrencyDto createDirectoryCurrency(@RequestBody DirectoryCurrencyDto directoryCurrencyDto){
         return directoryCurrencyService.createDirectoryCurrency(directoryCurrencyDto);
     }
 
-    @PutMapping
+    @PutMapping("update")
     public DirectoryCurrencyDto updateDirectoryCurrency(@RequestBody DirectoryCurrencyDto directoryCurrencyDto){
         return directoryCurrencyService.updateDirectoryCurrency(directoryCurrencyDto);
     }
 
-    @GetMapping
+    @GetMapping("all")
     public Page<DirectoryCurrencyDto> findAll(@RequestParam int number,@RequestParam int size){
        return directoryCurrencyService.findAll(number,size);
     }

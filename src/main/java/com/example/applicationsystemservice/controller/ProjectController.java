@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class ProjectController {
     private final ProjectService projectService;
 
-    @PostMapping
+    @PostMapping("cteate")
     public ProjectDto createProject(@RequestBody ProjectDto projectDto) {
         return projectService.createProject(projectDto);
     }
 
-    @PutMapping
+    @PutMapping("update")
     public ProjectDto updateProject(@RequestBody ProjectDto projectDto) {
         return projectService.updateProject(projectDto);
     }

@@ -16,11 +16,11 @@ public class AccountController {
     private final AccountService accountService;
 
     @GetMapping("/{id}")
-    public AccountDto findById(@PathVariable Long id){
-       return accountService.findAccount(id);
+    public ResponseEntity<AccountDto> findById(@PathVariable Long id){
+       return ResponseEntity.ok(accountService.findAccount(id));
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public AccountDto createAccount(@RequestBody AccountDto accountDto) {
         return accountService.createAccount(accountDto);
     }

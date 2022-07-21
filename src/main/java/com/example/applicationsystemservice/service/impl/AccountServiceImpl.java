@@ -9,6 +9,10 @@ import com.example.applicationsystemservice.service.RoleService;
 import com.example.applicationsystemservice.service.repository.AccountRepository;
 import com.example.applicationsystemservice.service.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
@@ -17,12 +21,12 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AccountServiceImpl implements AccountService {
+public class AccountServiceImpl implements AccountService, UserDetailsService {
 
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
     private final RoleService roleService;
-
+    private final BCryptPasswordEncoder passwordEncoder;
 
     @PostConstruct
     public void createAdmin() {
@@ -32,11 +36,11 @@ public class AccountServiceImpl implements AccountService {
         if ((optionalAccountEntity.isEmpty() || optionalAccountEntity.get().getRole().getRoleName().equals("admin"))
                 && roleEntityOptional.isPresent() ) {
             RoleEntity roleEntity= roleEntityOptional.get();
-            accountRepository.save(new AccountEntity(1L, "admin", "admin@gmail.com", "12345",
-                    LocalDateTime.now(), "Ivanov Ivan Ivanovich",
-                    "Moscow...", "12.12.2000", roleEntity));
+            accountRepository.save(new AccountEntity(1L, "admin", "admin@gmail.com",
+                    passwordEncoder.encode("12345"), LocalDateTime.of(2022,12,23,
+                    12,13) , "Ivanov Ivan Ivanovich", "Moscow...", "12.12.2000",
+                    roleEntity));
         }
-        ;
     }
 
     @Override
@@ -47,8 +51,11 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDto createAccount(AccountDto accountDto) {
-        AccountEntity accountEntity = accountRepository.save(accountMapper.accountToEntity(accountDto, "developer"));
-        return accountMapper.accountToDto(accountEntity);
+        RoleEntity roleEntity = roleService.findByName("developer");
+        AccountEntity accountEntity = accountMapper.accountToEntity(accountDto);
+        accountEntity.setRole(roleEntity);
+        accountEntity.setPassword(passwordEncoder.encode(accountDto.getPassword()));
+        return accountMapper.accountToDto(accountRepository.save(accountEntity));
     }
 
     @Override
@@ -80,7 +87,15 @@ public class AccountServiceImpl implements AccountService {
             accountRepository.deleteById(id);
             return true;
         }
-        //ошибка
-        return false;
+        throw new RuntimeException();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        AccountEntity accountEntity= accountRepository.findByLogin(username);
+        if (accountEntity==null){
+            throw new UsernameNotFoundException("User not found");
+        }
+        return accountEntity;
     }
 }
