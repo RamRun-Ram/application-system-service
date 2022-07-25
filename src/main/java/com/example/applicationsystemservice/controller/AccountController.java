@@ -15,14 +15,14 @@ public class AccountController {
 
     private final AccountService accountService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<AccountDto> findById(@PathVariable Long id){
+    @GetMapping("/get")
+    public ResponseEntity<AccountDto> findById(@RequestParam Long id){
        return ResponseEntity.ok(accountService.findAccount(id));
     }
 
     @PostMapping("/create")
-    public AccountDto createAccount(@RequestBody AccountDto accountDto) {
-        return accountService.createAccount(accountDto);
+    public ResponseEntity<AccountDto>  createAccount(@RequestBody AccountDto accountDto) {
+        return ResponseEntity.ok(accountService.createAccount(accountDto));
     }
 
     @PutMapping

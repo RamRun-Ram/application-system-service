@@ -1,8 +1,8 @@
 package com.example.applicationsystemservice.service;
 
 import com.example.applicationsystemservice.domain.dto.AccountDto;
+import com.example.applicationsystemservice.domain.entity.AccountEntity;
 import com.example.applicationsystemservice.domain.entity.RoleEntity;
-
 
 public interface AccountService {
     AccountDto findAccount(Long id);
@@ -10,4 +10,6 @@ public interface AccountService {
     AccountDto updateAccount(AccountDto accountDto);
     void setRole(Long id, RoleEntity role);
     boolean deleteAccount(Long id);
+
+    AccountEntity findByLogin(String login);
 }

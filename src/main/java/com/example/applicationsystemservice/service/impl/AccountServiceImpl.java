@@ -7,11 +7,7 @@ import com.example.applicationsystemservice.mapper.AccountMapper;
 import com.example.applicationsystemservice.service.AccountService;
 import com.example.applicationsystemservice.service.RoleService;
 import com.example.applicationsystemservice.service.repository.AccountRepository;
-import com.example.applicationsystemservice.service.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +17,7 @@ import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
-public class AccountServiceImpl implements AccountService, UserDetailsService {
+public class AccountServiceImpl implements AccountService {
 
     private final AccountRepository accountRepository;
     private final AccountMapper accountMapper;
@@ -91,11 +87,8 @@ public class AccountServiceImpl implements AccountService, UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        AccountEntity accountEntity= accountRepository.findByLogin(username);
-        if (accountEntity==null){
-            throw new UsernameNotFoundException("User not found");
-        }
-        return accountEntity;
+    public AccountEntity findByLogin(String login) {
+        return accountRepository.findByLogin(login);
     }
+
 }
